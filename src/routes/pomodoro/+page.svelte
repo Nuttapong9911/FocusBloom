@@ -1,7 +1,8 @@
 <script lang="ts">
-  import Basket from '../../components/pomodoro_timer/basket/+index.svelte';
-  import Farm from '../../components/pomodoro_timer/farm/+index.svelte'
-  import Pomodoro from '../../components/pomodoro_timer/pomodoro/+index.svelte'
+  import Farm from '../../components/farm/+farm.svelte'
+  import Pomodoro from '../../components/pomodoro/+pomodoro.svelte'
+
+  import Shop from '../../components/shop/+shop.svelte';
   import { POMODORO_STEPS } from '../../constants/pomodoro'
   import type { PomodoroStep, TimerStatus } from '../../types/pomodoro'
 
@@ -36,28 +37,26 @@
   <div class="h-[80%] flex">
     <div class="w-[50%] p-12">
       <Pomodoro
-        timer={timer}
-        timerStatus={timerStatus}
-        currentStep={currentStep}
-        setTimer={setTimer}
-        setTimerStatus={setTimerStatus}
-        setCurrentStep={setCurrentStep}
-        goToNextStep={goToNextStep}
+        {timer}
+        {timerStatus}
+        {currentStep}
+        {setTimer}
+        {setTimerStatus}
+        {goToNextStep}
       />
     </div>
   
     <div class="w-[50%] p-12">
       <Farm
-        timerStatus={timerStatus}
-        currentStep={currentStep}
+        {timerStatus}
+        {currentStep}
+        {goToNextStep}
       />
     </div>
   </div>
 
-  <div class="h-[20%] bg-amber-100 flex justify-center p-5 gap-5">
-    <Basket goToNextStep={goToNextStep}/>
-    <Basket goToNextStep={goToNextStep}/>
-    <Basket goToNextStep={goToNextStep}/>
+  <div class="h-[20%] bg-amber-100 p-5 ">
+    <Shop />
   </div>
 </section>
 

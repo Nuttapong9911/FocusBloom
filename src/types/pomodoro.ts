@@ -8,8 +8,15 @@ type PomodoroStepObj = {
 
 type TimerStatus = 'paused' | 'running' | 'finished'
 
+type Fruit = {
+  id: number
+  sprite: string
+  level: number
+}
+
 export type {
   PomodoroStep,
   PomodoroStepObj,
   TimerStatus,
+  Fruit,
 }
