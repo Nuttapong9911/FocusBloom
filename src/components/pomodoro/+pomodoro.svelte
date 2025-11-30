@@ -34,6 +34,9 @@
       if (sellBasketStates.basket.length > 0) {
         const earnedCoins = sellBasketStates.basket.reduce((total, fruit) => total + FRUIT_SELL_PRICE[fruit.level], 0)
         coins.value += earnedCoins
+
+        localStorage.setItem('coins', coins.value.toString())
+
         sellBasketStates.basket = []
       }
     } else if (timerStatus === 'paused') {

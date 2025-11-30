@@ -1,4 +1,4 @@
-export const parser = <T extends { id: number }>() => {
+export const parser = <T extends { id: string }>() => {
   const setter = (e: DragEvent, data: T) => {
     if (e.dataTransfer) {
       e.dataTransfer.setData('application/json', JSON.stringify(data))

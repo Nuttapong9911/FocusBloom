@@ -1,14 +1,14 @@
 import { callBackRegistry } from '../../global'
 import { parser } from './drag_event_parser'
 
-interface DropzoneOptions<T extends { id: number }> {
+interface DropzoneOptions<T extends { id: string }> {
   onDrop?: (data: T) => boolean
   onDragOver?: () => void
   onDragLeave?: () => void
   isDroppable?: boolean
 }
 
-const dropzone = <T extends { id: number }>({ onDrop, onDragOver, onDragLeave, isDroppable = true }: DropzoneOptions<T>) => {
+const dropzone = <T extends { id: string }>({ onDrop, onDragOver, onDragLeave, isDroppable = true }: DropzoneOptions<T>) => {
   const { getter } = parser<T>()
 
   return (node: HTMLElement) => {
@@ -29,6 +29,7 @@ const dropzone = <T extends { id: number }>({ onDrop, onDragOver, onDragLeave, i
     }
 
     const handleDrop = (e: DragEvent) => {
+      console.log('Drop event triggered')
       if (isDroppable) {
         e.preventDefault()
         

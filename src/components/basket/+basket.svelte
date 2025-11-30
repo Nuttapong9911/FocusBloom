@@ -7,6 +7,7 @@
   import type { BasketProps } from './types'
 
   let {
+    id,
     className,
     basket = $bindable<Fruit[]>(),
     disabled,
@@ -36,6 +37,8 @@
       basket = basket.filter(fruit => !(fruit.sprite ===  rewardFruit.sprite))
       basket.push(doubleNextLvlFruit)
 
+      localStorage.setItem(`basket_${id}`, JSON.stringify(basket))
+
       return true
     }
 
@@ -49,9 +52,13 @@
       basket = basket.filter(fruit => !(fruit.sprite === rewardFruit.sprite && fruit.level === rewardFruit.level))
       basket.push(upgradedFruit)
 
+      localStorage.setItem(`basket_${id}`, JSON.stringify(basket))
+
       return true
     } else if (basket.length <= BASKET_CAPACITY - 1) {
       basket.push(rewardFruit)
+
+      localStorage.setItem(`basket_${id}`, JSON.stringify(basket))
 
       return true
     }
@@ -74,7 +81,7 @@
 </script>
 
 <div
-  {@attach dropzone({ onDrop: handleReceive, isDroppable: disabled })}
+  {@attach dropzone({ onDrop: handleReceive, isDroppable: !disabled })}
   class="basket border-2 border-dashed {className}"
 >
   {#if basket.length === 0}
@@ -95,11 +102,11 @@
           })}
         >
         {#if fruit.level === 1}
-          <span class="text-3xl">{fruit.sprite}</span><span class=" text-xs">{fruit.id}</span>
+          <span class="text-3xl">{fruit.sprite}</span>
         {:else if fruit.level === 2}
-          <span class="text-4xl animation-lv2">{fruit.sprite}</span><span class=" text-xs">{fruit.id}</span>
+          <span class="text-4xl animation-lv2">{fruit.sprite}</span>
         {:else}
-          <span class="text-5xl animation-lv3">{fruit.sprite}</span><span class=" text-xs">{fruit.id}</span>
+          <span class="text-5xl animation-lv3">{fruit.sprite}</span>
         {/if}
         </div>
       {/each}

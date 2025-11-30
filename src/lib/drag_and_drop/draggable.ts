@@ -1,12 +1,12 @@
 import { parser } from './drag_event_parser'
 
-interface DraggableOptions<T extends { id: number }> {
+interface DraggableOptions<T extends { id: string }> {
   data: T
   onDragStart?: () => void
   onDragEnd?: () => void
 }
 
-const draggable = <T extends { id: number }>({ data, onDragEnd, onDragStart }: DraggableOptions<T>) => {
+const draggable = <T extends { id: string }>({ data, onDragEnd, onDragStart }: DraggableOptions<T>) => {
   const { setter } = parser<T>()
 
   return (node: HTMLElement) => {

@@ -9,7 +9,7 @@ type PomodoroStepObj = {
 type TimerStatus = 'paused' | 'running' | 'finished'
 
 type Fruit = {
-  id: number
+  id: string
   sprite: string
   level: number
 }

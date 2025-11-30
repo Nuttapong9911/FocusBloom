@@ -5,8 +5,9 @@
   import seedImg from '$lib/images/seed.svg'
   import waterImg from '$lib/images/watering.svg'
   import { FRUIT_SPRITES, FRUITS, TOTAL_FRUITS } from '../../constants/pomodoro'
-  import { callBackRegistry, getFruitId } from '../../global'
+  import { callBackRegistry } from '../../global'
   import type { Fruit } from '../../types/pomodoro'
+  import { v4 as uuidv4 } from 'uuid'
 
   import type { FarmProps } from './types'
 
@@ -21,7 +22,7 @@
         const randomIdx = Math.floor(Math.random() * FRUIT_SPRITES.length)
         // const randomIdx = Math.floor(Math.random() * 30)
         const randFruit = FRUITS[randomIdx + 1]
-        return { id: getFruitId(), sprite: randFruit.sprite, level: randFruit.level } as Fruit
+        return { id: uuidv4(), sprite: randFruit.sprite, level: randFruit.level } as Fruit
       })
     }
   })

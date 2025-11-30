@@ -30,6 +30,7 @@
     "vite": "^7.0.4"
   },
   "dependencies": {
-    "@fontsource-variable/space-grotesk": "^5.2.10"
+    "@fontsource-variable/space-grotesk": "^5.2.10",
+    "uuid": "13.0.*"
   }
 }
