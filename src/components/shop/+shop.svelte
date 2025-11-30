@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
   import { coins, sellBasketStates } from '../../global/state.svelte'
   import type { Fruit } from '../../types/pomodoro'
   import Basket from '../basket/+basket.svelte'
@@ -6,6 +7,16 @@
   let basket1 = $state<Fruit []>([])
   let basket2 = $state<Fruit []>([])
   let basket3 = $state<Fruit []>([])
+
+  onMount(() => {
+    const savedCoins = localStorage.getItem('coins');
+    if (savedCoins) {
+      coins.value = parseInt(savedCoins);
+    }
+
+    // const savedBaskets = localStorage.getItem('baskets')
+    // if 
+  })
 
 </script>
 

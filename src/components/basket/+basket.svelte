@@ -13,21 +13,20 @@
   }: BasketProps = $props()
 
   const handleReceive = (rewardFruit: Fruit) => {
-    let calBasket = [...basket]
-    const sameIdFruit = calBasket.find(fruit => fruit.id === rewardFruit.id)
+    const sameIdFruit = basket.find(fruit => fruit.id === rewardFruit.id)
 
     if (sameIdFruit) {
       return false
     }
 
-    const sameLvlFruits = calBasket.filter(fruit => fruit.sprite === rewardFruit.sprite && fruit.level === rewardFruit.level)
-    const nextLvlFruits = calBasket.filter(fruit => fruit.sprite === rewardFruit.sprite && fruit.level === rewardFruit.level + 1)
+    const sameLvlFruits = basket.filter(fruit => fruit.sprite === rewardFruit.sprite && fruit.level === rewardFruit.level)
+    const nextLvlFruits = basket.filter(fruit => fruit.sprite === rewardFruit.sprite && fruit.level === rewardFruit.level + 1)
 
     const canUpgradeTwoLevels = sameLvlFruits.length == FRUIT_UPGRADE_COUNT - 1 && nextLvlFruits.length == FRUIT_UPGRADE_COUNT - 1
     const canUpgradeOneLevel = sameLvlFruits.length == FRUIT_UPGRADE_COUNT - 1
 
     // Double step upgrade
-    if (canUpgradeTwoLevels && calBasket.length <= BASKET_CAPACITY) {
+    if (canUpgradeTwoLevels && basket.length <= BASKET_CAPACITY) {
       const doubleNextLvlFruit: Fruit = {
         id: rewardFruit.id,
         sprite: rewardFruit.sprite,
@@ -41,7 +40,7 @@
     }
 
     // Single step upgrade
-    else if (canUpgradeOneLevel && calBasket.length <= BASKET_CAPACITY) {
+    else if (canUpgradeOneLevel && basket.length <= BASKET_CAPACITY) {
       const upgradedFruit: Fruit = {
         id: rewardFruit.id,
         sprite: rewardFruit.sprite,
@@ -51,7 +50,7 @@
       basket.push(upgradedFruit)
 
       return true
-    } else if (calBasket.length <= BASKET_CAPACITY - 1) {
+    } else if (basket.length <= BASKET_CAPACITY - 1) {
       basket.push(rewardFruit)
 
       return true
