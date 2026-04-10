@@ -1,5 +1,7 @@
 <script lang="ts">
 	import '../app.css'
+	import '../fonts/icomoon/style.css'
+
 	import favicon from '$lib/assets/favicon.svg'
 	import Navbar from '../components/navbar.svelte'
 	
