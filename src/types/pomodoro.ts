@@ -1,12 +1,12 @@
-type PomodoroStep = 'working_1' | 'smallBreak' | 'working_2' | 'longBreak'
+type PomodoroStep = 'START' | 'FOCUS_1' | 'SMALL_BREAK' | 'EVENT' | 'FOCUS_2' | 'BIG_BREAK' | 'FINISHED'
 
-type PomodoroStepObj = {
+type PomodoroStepConfig = {
   label: string
   duration: number
   next: PomodoroStep
 }
 
-type TimerStatus = 'paused' | 'running' | 'finished'
+type TimerStatus = 'paused' | 'running'
 
 type Fruit = {
   id: string
@@ -16,7 +16,7 @@ type Fruit = {
 
 export type {
   PomodoroStep,
-  PomodoroStepObj,
+  PomodoroStepConfig,
   TimerStatus,
   Fruit,
 }

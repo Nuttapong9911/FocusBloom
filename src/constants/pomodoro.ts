@@ -1,10 +1,13 @@
-import type { Fruit, PomodoroStep, PomodoroStepObj } from '../types/pomodoro'
+import type { Fruit, PomodoroStep, PomodoroStepConfig } from '../types/pomodoro'
 
-const POMODORO_STEPS: Record<PomodoroStep, PomodoroStepObj> = {
-  'working_1': { label: 'Planting', duration: 5, next: 'smallBreak' },
-  'smallBreak': { label: 'Watering', duration: 5, next: 'working_2' },
-  'working_2': { label: 'Fertilizing', duration: 5, next: 'longBreak' },
-  'longBreak': { label: 'Harvesting', duration: 5, next: 'working_1' },
+const POMODORO_STEP_CONFIG: Record<PomodoroStep, PomodoroStepConfig> = {
+  START:       { label: 'Start',       duration: 0, next: 'FOCUS_1' },
+  FOCUS_1:     { label: 'Focus',       duration: 5, next: 'SMALL_BREAK' },
+  SMALL_BREAK: { label: 'Short Break', duration: 5, next: 'EVENT' },
+  EVENT:       { label: 'Event',       duration: 0, next: 'FOCUS_2' },
+  FOCUS_2:     { label: 'Focus',       duration: 5, next: 'BIG_BREAK' },
+  BIG_BREAK:   { label: 'Long Break',  duration: 5, next: 'FINISHED' },
+  FINISHED:    { label: 'Finished',    duration: 0, next: 'START' },
 }
 
 const TOTAL_FRUITS = 4
@@ -28,12 +31,15 @@ const FRUIT_SELL_PRICE: Record<number, number> = {
 
 const FRUIT_UPGRADE_COUNT = 3
 
+const POMODORO_STEPS = Object.keys(POMODORO_STEP_CONFIG) as PomodoroStep[]
+
 export {
   TOTAL_FRUITS,
-  POMODORO_STEPS,
+  POMODORO_STEP_CONFIG,
   BASKET_CAPACITY,
   FRUITS,
   FRUIT_SPRITES,
   FRUIT_SELL_PRICE,
   FRUIT_UPGRADE_COUNT,
+  POMODORO_STEPS,
 }

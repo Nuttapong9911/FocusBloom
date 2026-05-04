@@ -16,11 +16,10 @@
   let rewardFruits = $state<Fruit[]>([])
 
   $effect(() => {
-    if (props.currentStep === 'longBreak' && props.timerStatus === 'finished') {
+    if (props.currentStep === 'BIG_BREAK' && props.timerStatus === 'paused' && props.timer === 0) {
 
       rewardFruits = Array.from({ length: TOTAL_FRUITS }, () => {
         const randomIdx = Math.floor(Math.random() * FRUIT_SPRITES.length)
-        // const randomIdx = Math.floor(Math.random() * 30)
         const randFruit = FRUITS[randomIdx + 1]
         return { id: uuidv4(), sprite: randFruit.sprite, level: randFruit.level } as Fruit
       })
@@ -48,25 +47,25 @@
 <div class="text-xl">Your Forest Garden</div>
   <div class="my-auto">
 
-    {#if props.currentStep === 'working_1'}
+    {#if props.currentStep === 'FOCUS_1'}
       <img class={{"pomodoro-image": props.timerStatus === 'running'}} src={seedImg} alt="seed" width="100" />
 
-    {:else if props.currentStep === 'smallBreak'}
+    {:else if props.currentStep === 'SMALL_BREAK'}
       <img class={{"pomodoro-image": props.timerStatus === 'running'}} src={waterImg} alt="water" width="100" />
 
-    {:else if props.currentStep === 'working_2'}
+    {:else if props.currentStep === 'FOCUS_2'}
       <img class={{"pomodoro-image": props.timerStatus === 'running'}} src={fertilizerImg} alt="fertilizer" width="100" />
 
-    {:else if props.currentStep === 'longBreak'}
-      {#if props.timerStatus !== 'finished'}
+    {:else if props.currentStep === 'BIG_BREAK'}
+      {#if props.timerStatus !== 'paused' || props.timer !== 0}
         <img class={{"pomodoro-image": props.timerStatus === 'running'}} src={harvestImg} alt="harvest" width="100" />
-      
+
       {:else}
         <div class=" flex gap-4">
           {#if rewardFruits.length === 0}
             <p>All fruits have been harvested</p>
           {:else}
-            {#each rewardFruits as rewardFruit}
+            {#each rewardFruits as rewardFruit (rewardFruit)}
               <div
                 {@attach draggable<Fruit>({
                   data: rewardFruit,

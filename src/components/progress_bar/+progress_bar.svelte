@@ -4,8 +4,8 @@
   let props: ProgressBarProps = $props()
  
   let width = $derived.by(() => {
-    if (props.status === 'finished')
-      return `${((props.currentStepIdx + 1) / props.steps.length) * 100}%`
+    if (props.status === 'paused' && props.timer === 0)
+      return `${((props.currentStepIdx) / props.steps.length) * 100}%`
     else
       return `${(props.currentStepIdx / props.steps.length) * 100}%`
   })
@@ -19,8 +19,8 @@
     <div class="h-full bg-[#3A5A40]" style:width={width}>
       &nbsp;
     </div>
-    {#if props.status === 'running'}
-      <div class="running bg-[#3A5A40]"  style:width={oneStepWidth}>
+    {#if props.status === 'running' || props.blink}
+      <div class="running bg-[#3A5A40]" style:width={oneStepWidth}>
         &nbsp;
       </div>
     {/if}
@@ -28,8 +28,8 @@
 
   <!-- Step Labels -->
   <div class="flex">
-    {#each props.steps as step}
-      <span class="text-center" style:width={oneStepWidth}>{step}</span>
+    {#each props.steps as step, idx (idx)}
+      <span  class="text-center" style:width={oneStepWidth}>{step}</span>
     {/each}
   </div>
 </section>

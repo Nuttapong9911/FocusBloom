@@ -1,11 +1,9 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import { FRUIT_SELL_PRICE, POMODORO_STEPS } from '../../constants/pomodoro'
+  import { POMODORO_STEPS, POMODORO_STEP_CONFIG } from '../../constants/pomodoro'
   import CustomTimer from '../custom_timer.svelte'
   import ProgressBar from '../progress_bar/+progress_bar.svelte'
   import type { PomodoroProps } from './types'
-  import type { PomodoroStep } from '../../types/pomodoro'
-  import { coins, sellBasketStates } from '../../global/state.svelte'
 
   let {
     currentStep,
@@ -19,52 +17,35 @@
   // Interval obj id
   let interval = $state<number>(0)
 
-  const pomodoroStepsArr = Object.keys(POMODORO_STEPS) as PomodoroStep[]
-  const currentStepIdx = $derived(pomodoroStepsArr.indexOf(currentStep))
+  
+  const currentStepIdx = $derived(POMODORO_STEPS.indexOf(currentStep))
 
-  // Render
-  let buttonText = $state<'Start' | 'Stop' | 'Continue'>('Start')
+  const buttonText = $derived.by(() => {
+    if (timerStatus === 'running') return 'Stop'
+    if (POMODORO_STEP_CONFIG[currentStep].duration === 0) return 'Next'
+    return timer < POMODORO_STEP_CONFIG[currentStep].duration ? 'Continue' : 'Start'
+  })
 
   const onClickTimerButton = () => {
-    if (timerStatus === 'finished') {
-      buttonText = 'Start'
-      sellBasketStates.disabled = true
+    if (POMODORO_STEP_CONFIG[currentStep].duration === 0) {
       goToNextStep()
-      
-      if (sellBasketStates.basket.length > 0) {
-        const earnedCoins = sellBasketStates.basket.reduce((total, fruit) => total + FRUIT_SELL_PRICE[fruit.level], 0)
-        coins.value += earnedCoins
+      return
+    }
 
-        localStorage.setItem('coins', coins.value.toString())
-
-        sellBasketStates.basket = []
-      }
-    } else if (timerStatus === 'paused') {
+    if (timerStatus === 'paused') {
       setTimerStatus('running')
-      buttonText = 'Stop'
-      
 
       interval = setInterval(() => {
         if (timer > 0) {
           setTimer(timer - 1)
-        } else {  
+        } else {
           clearInterval(interval)
-
-  
-          if (currentStepIdx !== pomodoroStepsArr.length - 1) {
-            goToNextStep()
-            buttonText = 'Start'
-          } else {
-            buttonText = 'Continue'
-            setTimerStatus('finished')
-            sellBasketStates.disabled = false
-          }
+          goToNextStep()
         }
-      }, 1000)
+      }, 100)
     } else if (timerStatus === 'running') {
       clearInterval(interval)
       setTimerStatus('paused')
-      buttonText = 'Continue'
     }
   }
 
@@ -90,14 +71,7 @@
   <!-- CYCLE PROGRESS -->
   <div class="mb-2">Cycle Progress</div>
   <div class="w-full mb-4">
-    <ProgressBar status={timerStatus} steps={Object.values(POMODORO_STEPS).map(step => step.label)} currentStepIdx={currentStepIdx} />
+    <ProgressBar status={timerStatus} {timer} steps={Object.values(POMODORO_STEP_CONFIG).map(step => step.label)} currentStepIdx={currentStepIdx} blink={POMODORO_STEP_CONFIG[currentStep].duration === 0} />
   </div>
 
-  <!-- <div class="w-full mb-4 px-4 py-6 text-md bg-white rounded-xl shadow-md">
-    {#if currentStep === 'working_1' || currentStep === 'working_2'}
-      <span>Stay focused! I will take care of the farm for you. :D</span>
-    {:else}
-      <span>Now we are on the break. Enjoy your time!</span>
-    {/if}
-  </div> -->
 </section>

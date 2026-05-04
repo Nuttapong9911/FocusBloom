@@ -93,7 +93,7 @@
     
   {:else}
     <div class="flex gap-2">
-      {#each basket as fruit}
+      {#each basket as fruit (fruit)}
         <div
           {@attach draggable({
               data: fruit,

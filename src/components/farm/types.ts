@@ -2,6 +2,7 @@ import type { PomodoroStep, TimerStatus } from '../../types/pomodoro'
 
 interface FarmProps {
   timerStatus: TimerStatus
+  timer: number
   currentStep: PomodoroStep
   goToNextStep: () => void
 }
